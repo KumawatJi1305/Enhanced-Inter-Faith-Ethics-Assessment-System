@@ -5,7 +5,7 @@ def get_connection():
         conn = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="080512",
+            password="Enter your sql password",
             database="ethical_ai"
         )
         return conn
