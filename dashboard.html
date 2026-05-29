@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard | Ethical AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .dashboard-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('/static/Ethics..jpeg') no-repeat center center fixed;
+      background-size: cover;
+      filter: blur(10px);
+      z-index: -2;
+    }
+
+    .dashboard-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 30px;
+      color: white;
+    }
+
+    .form-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 16px;
+      padding: 30px 40px;
+      width: 100%;
+      max-width: 800px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #00ccff;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 20px 0 10px;
+    }
+
+    select, textarea, input[type="file"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      backdrop-filter: blur(4px);
+    }
+
+    textarea::placeholder, select, input::file-selector-button {
+      color: #ccc;
+    }
+
+    input[type="file"] {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background: #00bfff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #009acd;
+    }
+
+    @media screen and (max-width: 768px) {
+      .form-box {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-background"></div>
+  <div class="dashboard-overlay"></div>
+
+<div class="container">
+  <div class="form-box">
+    <h2>Welcome, {{ username }}</h2>
+    <form action="/submit" method="post" enctype="multipart/form-data">
+      <label for="ethics_type">📄 Type of Ethic:</label>
+      <input type="text" id="ethics_type_display" value="Religious Ethics" disabled style="background: #f2f2f2; border: none; padding: 8px; border-radius: 4px; width: 100%; font-weight: bold;">
+      
+      <!-- Hidden input so the backend still gets 'religious' as the type -->
+      <input type="hidden" name="ethics_type" value="religious">
+
+        <label for="prompt">Describe your ethical concern:</label>
+        <textarea name="prompt" id="prompt" rows="6" placeholder="Describe your ethical concern here..."></textarea>
+
+        <label for="pdf_file">📁 Either Upload a PDF:</label>
+        <input type="file" name="pdf_file" accept=".pdf" />
+
+        <button type="submit">✨ Evaluate Ethics</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Not in use-->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const categorySelect = document.getElementById('ethics_type');
+      const promptTextarea = document.getElementById('prompt');
+
+      const prompts = {
+        personal: "e.g., Should I report a friend who cheated on an exam?",
+        professional: "e.g., Is it okay to take credit for a team project?",
+        medical: "e.g., Should a doctor disclose a terminal illness to a patient?",
+        business: "e.g., Should a company hide a data breach to protect its reputation?",
+        technology: "e.g., Is it ethical to use AI to monitor employee productivity?",
+        religious: "e.g., Should religious beliefs influence workplace dress codes?",
+        environmental: "e.g., Should we prioritize business over environmental impact?",
+        social: "e.g., Is it fair to implement gender-based hiring quotas?"
+      };
+
+      categorySelect.addEventListener('change', function () {
+        const selected = categorySelect.value;
+        promptTextarea.placeholder = prompts[selected] || "Describe your ethical concern here...";
+      });
+    });
+  </script>
+</body>
+</html>

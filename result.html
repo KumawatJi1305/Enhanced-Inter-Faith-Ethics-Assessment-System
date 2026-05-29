@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Comprehensive Ethical Score Result</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background:#0e0e0e; color:#fff;
+      min-height:100vh; padding:20px;
+      display:flex; justify-content:center; align-items:flex-start;
+    }
+    .container {
+      width:100%; max-width:1100px;
+      background:rgba(255,255,255,0.05);
+      border-radius:14px; padding:22px;
+    }
+    h2.section-title {
+      font-size:24px; font-weight:600; margin:10px 0 16px;
+      display:flex; align-items:center; gap:10px;
+    }
+    /* Score scale */
+    .score-wrap { margin-bottom:22px; }
+    .score-scale {
+      position:relative; height:28px;
+      background:linear-gradient(to right, red, orange, yellow, green);
+      border-radius:18px; overflow:hidden;
+    }
+    .score-indicator {
+      position:absolute; top:-6px; width:2px; height:40px;
+      background:#fff; left:0; transition:left 0.9s ease;
+    }
+    .score-label { margin-top:8px; font-weight:600; }
+    /* Card */
+    .card {
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:12px; padding:16px; margin-bottom:16px;
+      font-size:15px; line-height:1.4;
+    }
+    .card strong { color:#ffd166; }
+    .two-col {
+      display:grid; grid-template-columns: 1fr 1fr; gap:16px;
+    }
+    @media (max-width: 800px){ .two-col{ grid-template-columns:1fr; } }
+    /* Button */
+    .btn-back {
+      display:inline-block; margin-top:8px; padding:10px 18px;
+      background:#00ffff; color:#111; font-weight:600;
+      border-radius:24px; text-decoration:none;
+      transition:all .25s ease;
+    }
+    .btn-back:hover{ background:#00e6e6; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Score -->
+    <h2 class="section-title">🌟 Ethical Score</h2>
+    <div class="score-wrap">
+      <div class="score-scale">
+        <div class="score-indicator" id="indicator"></div>
+      </div>
+      <div class="score-label" id="score-text">0/10</div>
+    </div>
+
+    <!-- Suggestion + Input -->
+    <div class="two-col">
+      <div class="card">
+        <strong>AI Suggestion:</strong><br>
+        <div>{{ suggestion }}</div>
+      </div>
+      <div class="card" style="white-space:pre-wrap;">
+        <strong>Your Input:</strong><br>
+        {{ input_text }}
+      </div>
+    </div>
+
+    <!-- Insights -->
+    <h2 class="section-title">🎯 Detailed Insights &amp; Recommendations</h2>
+    <div class="card">
+      <div style="margin-bottom:12px;">
+        <strong>Religious Perspective Analysis:</strong><br>
+        • {{ insights.religious.highest.tradition }} shows highest alignment ({{ "%.3f"|format(insights.religious.highest.score) }})<br>
+        • {{ insights.religious.lowest.tradition }} shows lowest alignment ({{ "%.3f"|format(insights.religious.lowest.score) }})<br>
+        • Cross-religious consensus: {{ "%.3f"|format(insights.religious.consensus) }} (0=high disagreement, 1=high agreement)
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <strong>Scenario Classification:</strong><br>
+        • Primary context: {{ insights.classification.primary_context }}<br>
+        {% for c in insights.classification.scores %}
+        • {{ c.label }}: {{ "%.2f"|format(c.score) }}<br>
+        {% endfor %}
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <strong>Ethical Framework Analysis:</strong><br>
+        {{ insights.framework_summary }}
+      </div>
+
+      <div>
+        <strong>Overall Assessment &amp; Recommendations:</strong><br>
+        • <em>{{ insights.assessment.concern }}</em><br>
+        • <em>{{ insights.assessment.recommendation }}</em>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+      <!-- Back to Dashboard button (left) -->
+      <a href="{{ url_for('dashboard') }}" class="btn-back" style="background:#00e6e6; color:#111;">
+          ← Back to Dashboard
+      </a>
+
+      <!-- Download button (right) -->
+      <a href="{{ url_for('download_result', 
+                           score=score, 
+                           suggestion=suggestion, 
+                           input_text=input_text) }}" 
+         class="btn-back" style="background:#ffcc00; color:#111;">
+         ⬇ Download Result as Text
+      </a>
+    </div>
+
+  </div>
+
+  <!-- JS for score animation -->
+  <script>
+    const score = parseFloat("{{ score }}"); // value from Flask
+    const percentage = (score / 10) * 100;
+
+    const indicator = document.getElementById('indicator');
+    const scoreText = document.getElementById('score-text');
+
+    setTimeout(() => {
+      indicator.style.left = `calc(${percentage}% - 1px)`;
+      scoreText.textContent = score.toFixed(1) + "/10";
+    }, 200);
+  </script>
+</body>
+</html>

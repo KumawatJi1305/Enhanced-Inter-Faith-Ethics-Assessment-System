@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ethical AI Score</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    .no-scroll {
+      overflow:hidden;
+    }
+    body {
+      background: url('/static/Ethics..jpeg') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    .navbar {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: transparent;
+      z-index: 2;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      color: #00d4ff;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 80px;
+      z-index: 1;
+      position: relative;
+    }
+
+    .text-section {
+      max-width: 600px;
+      z-index: 1;
+      margin-top: 370px;
+    }
+
+    .text-section h1 {
+      font-size: 3.5em;
+      margin-bottom: 20px;
+    }
+
+    .text-section p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+
+    .text-section button {
+      padding: 12px 30px;
+      font-size: 1em;
+      background-color: #00d4ff;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .text-section button:hover {
+      transform: scale(1.05);
+      background-color: #00bbdd;
+    }
+
+    /* Slide-in panels using :target */
+    .slide-panel {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 400px;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      color: white;
+      padding: 40px 20px;
+      transition: right 0.4s ease-in-out;
+      z-index: 5;
+      overflow-y: auto;
+    }
+
+    .slide-panel {
+      justify-content: center;
+    }
+
+    .slide-panel h2 {
+      margin-bottom: 15px;
+    }
+
+    .slide-panel a.close {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 20px;
+      background: #00d4ff;
+      color: black;
+      border-radius: 20px;
+      text-decoration: none;
+    }
+
+    /* When targeted */
+    #home:target,
+    #vision:target,
+    #contact:target {
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="#vision">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-right">
+      <!-- ✅ Updated links using Flask routing -->
+      <a href="{{ url_for('login') }}">Login</a>
+      <a href="{{ url_for('signup') }}">Signup</a>
+    </div>
+  </nav>
+
+  <!-- Landing Section -->
+  <div class="container">
+    <div class="text-section">
+      <h1>⚖️ Enhanced Inter-Faith Ethics Assessment System</h1>
+    </div>
+  </div>
+
+  <!-- Slide Panels -->
+  <div id="vision" class="slide-panel">
+    <h2>🌐 About us </h2>
+    <p>Ethical AI helps people and organizations make morally sound decisions.
+It combines AI with teachings from major world religions.
+The platform offers balanced and culturally sensitive assessments.
+It guides users through personal, professional, and social dilemmas.
+Our mission is to make ethical reflection accessible and inclusive.
+</p>
+    <div id="vision">
+      <h4>Meet the team </h4>
+       <li>Nabeeha Shaikh</li>
+       <li>Himanshu N. Kumawat</li>
+    </div>
+    <a href="#" class="close">Close</a>
+  </div>
+
+  <div id="contact" class="slide-panel">
+    <h2>📬 Contact Us</h2>
+    <p>Reach out with questions or suggestions:<br>Email: ethics@example.com<br>Phone: +91-123-456-7890</p>
+    <a href="#" class="close">Close</a>
+  </div>
+
+</body>
+</html>
